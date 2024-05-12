@@ -6,9 +6,13 @@ import math
 import random
 
 import inspect
-import cPickle
+import pickle
 import scipy.integrate
 import numpy as np
+
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 try:
     # try and import from the current path (for package usage or use as an uninstalled executable)
@@ -109,30 +113,22 @@ def generate(ngen,
     pop.zscale = zscale
 
     if widthModel == 'kj07':
-        print "\tLoading KJ07 models...."
+        print("\tLoading KJ07 models....")
         kj_p_vals, kj_pdot_vals, kj_dists = beammodels.load_kj2007_models()
-        print "\tDone\n"
+        print("\tDone\n")
 
     if not nostdout:
-        print "\tGenerating evolved pulsars with parameters:"
-        print "\t\tngen = {0}".format(ngen)
-        print "\t\tUsing electron distn model {0}".format(
-                                        pop.electronModel)
-        print "\n\t\tPeriod mean, sigma = {0}, {1}".format(
-                                                    pop.pmean,
-                                                    pop.psigma)
-        print "\t\tLuminosity mean, sigma = {0}, {1}".format(
-                                                    pop.lummean,
-                                                    pop.lumsigma)
-        print "\t\tSpectral index mean, sigma = {0}, {1}".format(
-                                                    pop.simean,
-                                                    pop.sisigma)
-        print "\t\tGalactic z scale height = {0} kpc".format(
-                                                    pop.zscale)
+        print("\tGenerating evolved pulsars with parameters:")
+        print("\t\tngen = {0}".format(ngen))
+        print("\t\tUsing electron distn model {0}".format(pop.electronModel))
+        print("\n\t\tPeriod mean, sigma = {0}, {1}".format(pop.pmean, pop.psigma))
+        print("\t\tLuminosity mean, sigma = {0}, {1}".format(pop.lummean, pop.lumsigma))
+        print("\t\tSpectral index mean, sigma = {0}, {1}".format(pop.simean, pop.sisigma))
+        print("\t\tGalactic z scale height = {0} kpc".format(pop.zscale))
         if widthModel is None:
-            print "\t\tWidth {0}% ".format(duty)
+            print("\t\tWidth {0}% ".format(duty))
         else:
-            print "\t\tUsing Karastergiou & Johnston beam width model"
+            print("\t\tUsing Karastergiou & Johnston beam width model")
 
         # set up progress bar for fun :)
         prog = ProgressBar(min_value=0,
@@ -233,7 +229,7 @@ def generate(ngen,
             """
 
         else:
-            print "Undefined width model!"
+            print("Undefined width model!")
             sys.exit()
         # print width
         # print pulsar.period, width, pulsar.pdot
@@ -287,8 +283,9 @@ def generate(ngen,
             pulsar.spindex = random.gauss(pop.simean, pop.sisigma)
 
             # calculate galactic coords and distance
-            pulsar.gl, pulsar.gb = go.xyz_to_lb(pulsar.galCoords)
-            pulsar.dtrue = go.calc_dtrue(pulsar.galCoords)
+            x, y, z = pulsar.galCoords
+            pulsar.gl, pulsar.gb = go.xyz_to_lb(x, y, z)
+            pulsar.dtrue = go.calc_dtrue(x, y, z)
 
             # then calc DM  using fortran libs
             if pop.electronModel == 'ne2001':
@@ -343,7 +340,7 @@ def generate(ngen,
                     # update the counter
                     if not nostdout:
                         prog.increment_amount()
-                        print prog, '\r',
+                        print(prog, '\r',)
                         sys.stdout.flush()
 
             else:
@@ -353,7 +350,7 @@ def generate(ngen,
                 # update the counter
                 if not nostdout:
                     prog.increment_amount()
-                    print prog, '\r',
+                    print(prog, '\r',)
                     sys.stdout.flush()
 
             # pulsar isn't dead, add to population!
@@ -367,25 +364,26 @@ def generate(ngen,
                 # update the counter
                 if not nostdout:
                     prog.increment_amount()
-                    print prog, '\r',
+                    print(prog, '\r',)
                     sys.stdout.flush()
 
     if not nostdout:
-        print "\n\n"
-        print "  Total pulsars = {0}".format(len(pop.population))
-        print "  Total detected = {0}".format(pop.ndet)
+        print("\n\n")
+        print("  Total pulsars = {0}".format(len(pop.population)))
+        print("  Total detected = {0}".format(pop.ndet))
 
         for surv in surveys:
-            print "\n  Results for survey '{0}'".format(surv.surveyName)
-            print "    Number detected = {0}".format(surv.ndet)
-            print "    Number too faint = {0}".format(surv.ntf)
-            print "    Number smeared = {0}".format(surv.nsmear)
-            print "    Number outside survey area = {0}".format(surv.nout)
+            print("\n  Results for survey '{0}'".format(surv.surveyName))
+            print("    Number detected = {0}".format(surv.ndet))
+            print("    Number too faint = {0}".format(surv.ntf))
+            print("    Number smeared = {0}".format(surv.nsmear))
+            print("    Number outside survey area = {0}".format(surv.nout))
 
     # save list of arguments into the pop
     try:
-        argspec = inspect.getargspec(generate)
-        key_values = [(arg, locals()[arg]) for arg in argspec.args]
+        argspec = inspect.getfullargspec(generate)
+        l = locals()
+        key_values = [(arg, l[arg]) for arg in argspec.args]
         pop.arguments = {key: value for (key, value) in key_values}
     except SyntaxError:
         pass
@@ -435,7 +433,7 @@ def alignpulsar(pulsar, pop):
     """
 
     # need to be careful to use chi in degrees, but
-    # consistently remember to take the sins/cosines of radians
+    # consistently remember to take the sines/cosines of radians
     if pop.alignModel == 'orthogonal':
         pulsar.chi = 90.0
         pulsar.sinchi_init = 1.0
@@ -770,7 +768,7 @@ if __name__ == '__main__':
                         help='Output filename for population model \
                                (def=evolve.model)')
 
-    # turn off printing to stdout
+    # turn off print(ng to stdout)
     parser.add_argument('--nostdout', nargs='?', const=True, default=False,
                         help='switch off std output')
 
@@ -820,3 +818,12 @@ if __name__ == '__main__':
                    keepdead=args.keepdead)
 
     pop.write(outf=args.o)
+    # print([i for i in pop.population])
+    periods = [pulsar.period for pulsar in pop.population]
+    pdots = [pulsar.pdot for pulsar in pop.population]
+
+    # plot a scatter log-log plot of the p/pdot values
+    plt.loglog(periods, pdots, 'C0.')
+    plt.xlabel("log P")
+    plt.ylabel(r"log $\dot{P}$")
+    plt.show()

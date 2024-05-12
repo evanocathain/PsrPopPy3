@@ -3,7 +3,7 @@
 import sys
 import argparse
 
-import cPickle
+import pickle
 
 from population import Population
 
@@ -15,7 +15,7 @@ def PopJoin(poplist, outfile):
     # create "main" population object, using first in list
     
     if len(poplist)<2:
-        print "PopJoin requires at least two populations!"
+        print("PopJoin requires at least two populations!")
         sys.exit()
 
     # ok, we have multiple file names. 
@@ -23,9 +23,9 @@ def PopJoin(poplist, outfile):
     try:
         f = open(poplist[0], 'rb')
     except IOError:
-        print "Could not open file {0}.".format(poplist[0])
+        print("Could not open file {0}.".format(poplist[0]))
         sys.exit()
-    pop1 = cPickle.load(f)
+    pop1 = pickle.load(f)
     f.close()
 
     # try to read in the other populations
@@ -34,10 +34,10 @@ def PopJoin(poplist, outfile):
         try:
             f = open(popfile, 'rb')
         except IOError:
-            print "Could not open file {0}.".format(popfile)
+            print("Could not open file {0}.".format(popfile))
             sys.exit()
         
-        pop = cPickle.load(f)
+        pop = pickle.load(f)
         f.close()
 
         populations.append(pop)
@@ -46,11 +46,11 @@ def PopJoin(poplist, outfile):
     newpop = pop1.join(populations)
 
     # print out useful info
-    print newpop
+    print(newpop)
 
     # write out the new file!
     f = open(outfile, 'wb')
-    cPickle.dump(newpop, f)
+    pickle.dump(newpop, f)
     f.close()
 
 

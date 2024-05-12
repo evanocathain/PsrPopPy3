@@ -5,18 +5,20 @@ import os
 import argparse
 import random
 
-import cPickle
+import pickle
 import numpy as np
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
 import matplotlib
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import (
+    FigureCanvasQTAgg as FigCanvas,
+    NavigationToolbar2QT as NavigationToolbar
+)
 
-from matplotlib.backends.backend_qt4agg import \
-    FigureCanvasQTAgg as FigCanvas, \
-    NavigationToolbar2QTAgg as NavigationToolbar
 
 class ViewException(Exception):
     pass
@@ -66,7 +68,7 @@ def makeDataObj(frac=None, extnList=['.model', '.results']):
                     'Array Index']
 
     if len(textlabels) != len(axislabels):
-        print "Label list lengths not identical."
+        print("Label list lengths not identical.")
         sys.exit()
 
     dataObjList = []
@@ -78,10 +80,10 @@ def makeDataObj(frac=None, extnList=['.model', '.results']):
                 try:
                     f = open(filename, 'rb')
                 except IOError:
-                    print "Could not open file {0}.".format(filename)
+                    print("Could not open file {0}.".format(filename))
                     sys.exit()
 
-                pop = cPickle.load(f)
+                pop = pickle.load(f)
                 f.close()
 
                 # create numpy array of right size

@@ -62,7 +62,7 @@ def vxyz(pulsar):
     pulsar.vz = vz.value
 
 
-def calc_dtrue((x, y, z)):
+def calc_dtrue(x, y, z):
     """Calculate true distance to pulsar from the sun."""
     rsun = 8.5  # kpc
     return math.sqrt(x*x + (y-rsun)*(y-rsun) + z*z)
@@ -86,7 +86,7 @@ def ne2001_dist_to_dm(dist, gl, gb):
     dist = C.c_float(dist)
     gl = C.c_float(gl)
     gb = C.c_float(gb)
-    inpath = C.create_string_buffer(fortranpath)
+    inpath = C.create_string_buffer(str.encode(fortranpath))
     linpath = C.c_int(len(fortranpath))
     return ne2001lib.dm_(C.byref(dist),
                          C.byref(gl),
@@ -105,7 +105,7 @@ def lmt85_dist_to_dm(dist, gl, gb):
     # passing path to fortran dir and the length of
     # this path --- removes need to edit getpath.f
     # during installation
-    inpath = C.create_string_buffer(fortranpath)
+    inpath = C.create_string_buffer(str.encode(fortranpath))
     linpath = C.c_int(len(fortranpath))
 
     return ne2001lib.dm_(C.byref(dist),
@@ -198,7 +198,7 @@ def radec_to_lb(ra, dec):
     return l.value, b.value
 
 
-def xyz_to_lb((x, y, z)):
+def xyz_to_lb(x, y, z):
     """ Convert galactic xyz in kpc to l and b in degrees."""
     rsun = 8.5  # kpc
 

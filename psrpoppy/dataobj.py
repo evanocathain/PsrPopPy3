@@ -2,7 +2,7 @@
 
 import os
 
-import cPickle
+import pickle
 
 
 class DataObj:
@@ -50,8 +50,8 @@ def readfile_return_dataobj(filename):
         return
 
     try:
-        pop = cPickle.load(f)
-    except cPickle.UnpicklingError:
+        pop = pickle.load(f)
+    except pickle.UnpicklingError:
         print "File {0} could not be unpickled!".format(filename)
         return
     f.close()

@@ -47,7 +47,7 @@ class Pulsar(Orbit):
         self.dm = dm
 
         # convert to -180->+180 range
-        if gl > 180.:
+        if gl and gl > 180.:
             gl -= 360.
 
         self.gl = gl

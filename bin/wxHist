@@ -6,7 +6,7 @@ import argparse
 import random
 import math
 
-import cPickle
+import pickle
 import numpy as np
 
 import wx

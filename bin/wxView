@@ -5,7 +5,7 @@ import os
 import argparse
 import random
 
-import cPickle
+import pickle
 import numpy as np
 
 import wx
@@ -133,8 +133,8 @@ class VisualizeFrame(wx.Frame):
 
     def onRadioClick(self, event):
         radioBox = event.GetEventObject()
-        print event.GetId()
-        print radioBox
+        print(event.GetId())
+        print(radioBox)
 
     def onXRadioClick(self, event):
         # get x index of selected button

@@ -6,7 +6,11 @@ import math
 import random
 
 import inspect
-import cPickle
+import pickle
+
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 try:
     # try and import from the current path (for package usage or use as an uninstalled executable)
@@ -39,7 +43,7 @@ class PopulateException(Exception):
     pass
 
 
-def generate(ngen,
+def generate(ngen=1038,
              surveyList=None,
              pDistType='lnorm',
              radialDistType='lfl06',
@@ -84,23 +88,23 @@ def generate(ngen,
 
     # check that the distribution types are supported....
     if lumDistType not in ['lnorm', 'pow']:
-        print "Unsupported luminosity distribution: {0}".format(lumDistType)
+        print("Unsupported luminosity distribution: {0}".format(lumDistType))
 
     if pDistType not in ['lnorm', 'norm', 'cc97', 'lorimer12']:
-        print "Unsupported period distribution: {0}".format(pDistType)
+        print("Unsupported period distribution: {0}".format(pDistType))
 
     if radialDistType not in ['lfl06', 'yk04', 'isotropic',
                               'slab', 'disk', 'gauss']:
-        print "Unsupported radial distribution: {0}".format(radialDistType)
+        print("Unsupported radial distribution: {0}".format(radialDistType))
 
     if electronModel not in ['ne2001', 'lmt85']:
-        print "Unsupported electron model: {0}".format(electronModel)
+        print("Unsupported electron model: {0}".format(electronModel))
 
     if pattern not in ['gaussian', 'airy']:
-        print "Unsupported gain pattern: {0}".format(pattern)
+        print("Unsupported gain pattern: {0}".format(pattern))
 
     if duty_percent < 0.:
-        print "Unsupported value of duty cycle: {0}".format(duty_percent)
+        print("Unsupported value of duty cycle: {0}".format(duty_percent))
 
     # need to use properties in this class so they're get/set-type props
     pop.pDistType = pDistType
@@ -130,14 +134,15 @@ def generate(ngen,
 
     # store the dict of arguments inside the model. Could be useful.
     try:
-        argspec = inspect.getargspec(generate)
-        key_values = [(arg, locals()[arg]) for arg in argspec.args]
+        argspec = inspect.getfullargspec(generate)
+        l = locals()
+        key_values = [(arg, l[arg]) for arg in argspec.args]
         pop.arguments = {key: value for (key, value) in key_values}
     except SyntaxError:
         pass
 
     if not nostdout:
-        print "\tGenerating pulsars with parameters:"
+        print("\tGenerating pulsars with parameters:")
         param_string_list = []
         for key, value in key_values:
             s = ": ".join([key, str(value)])
@@ -145,10 +150,10 @@ def generate(ngen,
 
         # join this list of strings, and print it
         s = "\n\t\t".join(param_string_list)
-        print "\t\t{0}".format(s)
+        print("\t\t{0}".format(s))
 
         # set up progress bar for fun :)
-        prog = ProgressBar(min_value=0,
+    prog = ProgressBar(min_value=0,
                            max_value=ngen,
                            width=65,
                            mode='dynamic')
@@ -182,10 +187,12 @@ def generate(ngen,
         elif pop.pDistType == 'cc97':
             p.period = _cc97()
         elif pop.pDistType == 'gamma':
-            print "Gamma function not yet supported"
+            print("Gamma function not yet supported")
             sys.exit()
         elif pop.pDistType == 'lorimer12':
             p.period = _lorimer2012_msp_periods()
+
+        p.pdot = 9.768E-40 * random.gauss(12.65, 0.55)**2 * (p.period/1000)**(2.0 - 2.5 + 0.5 * random.random())
 
         if duty_percent > 0.:
             # use a simple duty cycle for each pulsar
@@ -213,7 +220,7 @@ def generate(ngen,
         # suppose it might be nice to be able to have GPS sources
         # AND double spectra. But for now I assume only have one or
         # none of these types.
-        if random.random() > pop.gpsFrac:
+        if pop.gpsFrac and random.random() > pop.gpsFrac:
             # This will evaluate true when gpsArgs[0] is NoneType
             # might have to change in future
             p.gpsFlag = 0
@@ -221,7 +228,7 @@ def generate(ngen,
             p.gpsFlag = 1
             p.gpsA = pop.gpsA
 
-        if random.random() > pop.brokenFrac:
+        if pop.brokenFrac and random.random() > pop.brokenFrac:
             p.brokenFlag = 0
         else:
             p.brokenFlag = 1
@@ -268,9 +275,9 @@ def generate(ngen,
                 zheight = random.gauss(0., zscale)
             gx, gy = go.calcXY(p.r0)
             p.galCoords = gx, gy, zheight
-            p.gl, p.gb = go.xyz_to_lb(p.galCoords)
+            p.gl, p.gb = go.xyz_to_lb(gx, gy, zheight)
 
-        p.dtrue = go.calc_dtrue(p.galCoords)
+        p.dtrue = go.calc_dtrue(gx, gy, zheight)
 
         # then calc DM  using fortran libs
         if pop.electronModel == 'ne2001':
@@ -293,7 +300,7 @@ def generate(ngen,
         # add in orbital parameters
         if orbits:
             orbitalparams.test_1802_2124(p)
-            print p.gb, p.gl
+            print(p.gb, p.gl)
 
         # if no surveys, just generate ngen pulsars
         if surveyList is None:
@@ -301,7 +308,7 @@ def generate(ngen,
             pop.ndet += 1
             if not nostdout:
                 prog.increment_amount()
-                print prog, '\r',
+                print(prog, '\r',)
                 sys.stdout.flush()
         # if surveys are given, check if pulsar detected or not
         # in ANY of the surveys
@@ -345,22 +352,22 @@ def generate(ngen,
                 pop.ndet += 1
                 if not nostdout:
                     prog.increment_amount()
-                    print prog, '\r',
+                    print(prog, '\r',)
                     sys.stdout.flush()
 
     # print info to stdout
     if not nostdout:
-        print "\n"
-        print "  Total pulsars = {0}".format(len(pop.population))
-        print "  Total detected = {0}".format(pop.ndet)
+        print("\n")
+        print("  Total pulsars = {0}".format(len(pop.population)))
+        print("  Total detected = {0}".format(pop.ndet))
         # print "  Number not beaming = {0}".format(surv.nnb)
 
         for surv in surveys:
-            print "\n  Results for survey '{0}'".format(surv.surveyName)
-            print "    Number detected = {0}".format(surv.ndet)
-            print "    Number too faint = {0}".format(surv.ntf)
-            print "    Number smeared = {0}".format(surv.nsmear)
-            print "    Number outside survey area = {0}".format(surv.nout)
+            print("\n  Results for survey '{0}'".format(surv.surveyName))
+            print("    Number detected = {0}".format(surv.ndet))
+            print("    Number too faint = {0}".format(surv.ntf))
+            print("    Number smeared = {0}".format(surv.nsmear))
+            print("    Number outside survey area = {0}".format(surv.nout))
 
     return pop
 
@@ -376,13 +383,12 @@ def _lorimer2012_msp_periods():
     dist = [1., 3., 5., 16., 9., 5., 5., 3., 2.]
 
     # calculate which bin to take value of
-    #
     bin_num = dists.draw1d(dist)
 
     # assume linear distn inside the bins
-    logp = logpmin + (logpmax-logpmin)*(bin_num+random.random())/len(dist)
+    logp = logpmin + (logpmax - logpmin) * (bin_num + random.random()) / len(dist)
 
-    return 10.**logp
+    return 10 ** logp
 
 
 def _cc97():
@@ -561,9 +567,9 @@ if __name__ == '__main__':
         f.write(' '.join(sys.argv))
         f.write('\n')
 
-    # run the code and write out a cPickle population class
+    # run the code and write out a Pickle population class
 
-    pop = generate(args.n,
+    pop = generate(ngen=args.n,
                    surveyList=args.surveys,
                    pDistType=args.pdist[0],
                    lumDistType=args.ldist[0],
@@ -584,3 +590,14 @@ if __name__ == '__main__':
                    )
 
     pop.write(outf=args.o)
+
+    # print([(i.period, i.pdot) for i in pop.population])
+    # lists to store p/pdot
+    periods = [pulsar.period for pulsar in pop.population]
+    pdots = [pulsar.pdot for pulsar in pop.population]
+
+    # plot a scatter log-log plot of the p/pdot values
+    plt.loglog(periods, pdots, "C0.")
+    plt.xlabel("log P")
+    plt.ylabel(r"log $\dot{P}$")
+    plt.show()

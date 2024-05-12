@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import copy
-import cPickle
+import pickle
 
 import numpy as np
 
@@ -102,7 +102,7 @@ class Population:
         """Write the population object to a file"""
 
         output = open(outf, 'wb')
-        cPickle.dump(self, output, 2)
+        pickle.dump(self, output, 2)
         output.close()
 
     def write_asc(self, outf):

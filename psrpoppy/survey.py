@@ -274,7 +274,7 @@ class Survey:
                 # turn on AA
                 self.AA = True
             else:
-                print "Parameter '", a[1].strip(), "' not recognized!"
+                print("Parameter '", a[1].strip(), "' not recognized!")
 
         f.close()
 
@@ -455,37 +455,37 @@ class Survey:
         if pulsar.is_binary:
             # print "the pulsar is a binary!"
             if jerksearch:
-                print "jerk"
+                print("jerk")
                 gamma = degradation.gamma3(pulsar,
                                            self.tobs,
                                            1)
             elif accelsearch:
-                print "accel"
+                print("accel")
                 gamma = degradation.gamma2(pulsar,
                                            self.tobs,
                                            1)
             else:
-                print "norm"
+                print("norm")
                 gamma = degradation.gamma1(pulsar,
                                            self.tobs,
                                            1)
 
-                print "gamma harm1 = ", gamma
+                print("gamma harm1 = ", gamma)
 
                 gamma = degradation.gamma1(pulsar,
                                            self.tobs,
                                            2)
 
-                print "gamma harm2 = ", gamma
+                print("gamma harm2 = ", gamma)
                 gamma = degradation.gamma1(pulsar,
                                            self.tobs,
                                            3)
 
-                print "gamma harm3 = ", gamma
+                print("gamma harm3 = ", gamma)
                 gamma = degradation.gamma1(pulsar,
                                            self.tobs,
                                            4)
-                print "gamma harm4 = ", gamma
+                print ("gamma harm4 = ", gamma)
 
         # return the S/N accounting for beam offset
         return sig_to_noise * degfac
@@ -518,9 +518,9 @@ class Survey:
         """Calculate the flux assuming GPS spectrum shape, spindex===b"""
         log_nu_1 = math.log10(ref_freq/1000.)
         log_nu_2 = math.log10(self.freq/1000.)
-        gpsC = math.log10(psr.s_1400()) - (psr.gpsA * log_nu_1**2) \
+        gpsC = math.log10(psr.s_1400()) - (psr.gpsA if psr.gpsA else 0 * log_nu_1**2) \
                                         - psr.spindex * log_nu_1
-        return 10.**(psr.gpsA * log_nu_2**2 + psr.spindex * log_nu_2 + gpsC)
+        return 10.**(psr.gpsA if psr.gpsA else 0 * log_nu_2**2 + psr.spindex * log_nu_2 + gpsC)
 
     def _dmsmear(self, psr):
         """Calculate the smearing across a channel due to the pulsar DM"""
