@@ -1,7 +1,7 @@
 ###############################################################################
 # model of the Parkes 70cm survey
 ###############################################################################
-  1.2  ! survey degradation factor
+  1.25 ! survey degradation factor
   0.64 ! antenna gain (K/Jy)
   167 ! integration time (s)
   0.300 ! sampling time (ms)
