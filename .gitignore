@@ -3,6 +3,8 @@ populate.model
 populate.cmd
 evolve.model
 evolve.cmd
+*.det
+*.summary
 junk
 weff
 junk.py

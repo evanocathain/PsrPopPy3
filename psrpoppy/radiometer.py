@@ -48,7 +48,7 @@ def calcSNR(flux,
                         bw,
                         duty)
 
-    return flux / signal
+    return (1.0/(1.0+0.0473*duty**(-0.627)))*flux / signal
 
 
 def signalterm(beta,
