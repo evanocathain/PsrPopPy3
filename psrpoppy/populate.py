@@ -192,7 +192,7 @@ def generate(ngen=1038,
         elif pop.pDistType == 'lorimer12':
             p.period = _lorimer2012_msp_periods()
 
-        p.pdot = 9.768E-40 * random.gauss(12.65, 0.55)**2 * (p.period/1000)**(2.0 - 2.5 + 0.5 * random.random())
+        p.pdot = 9.768E-40 * math.pow(10,(random.gauss(12.65, 0.55)))**2 * (p.period/1000)**(2.0 - 2.5 + 0.5 * random.random())
 
         if duty_percent > 0.:
             # use a simple duty cycle for each pulsar
