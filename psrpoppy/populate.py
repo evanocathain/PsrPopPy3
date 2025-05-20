@@ -597,7 +597,7 @@ if __name__ == '__main__':
     pdots = [pulsar.pdot for pulsar in pop.population]
 
     # plot a scatter log-log plot of the p/pdot values
-    plt.loglog(periods, pdots, "C0.")
-    plt.xlabel("log P")
-    plt.ylabel(r"log $\dot{P}$")
-    plt.show()
+#    plt.loglog(periods, pdots, "C0.")
+#    plt.xlabel("log P")
+#    plt.ylabel(r"log $\dot{P}$")
+#    plt.show()
