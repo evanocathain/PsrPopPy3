@@ -17,15 +17,15 @@ pmsurv_number=$1
 niter=$2
 
 #for sp_mean in `seq -f %.2f -2.00 0.01 -1.00`
-for sp_mean in `seq -f %.2f -2.00 0.05 -1.00`
+#for sp_mean in `seq -f %.2f -2.00 0.05 -1.00`
+for sp_mean in `seq -f %.2f -1.95 0.05 -1.95`
 do 
 
 #  for sp_sigma in `seq -f %.2f 0.00 0.01 2.00`
-  for sp_sigma in `seq -f %.2f 0.00 0.05 2.00`
+  for sp_sigma in `seq -f %.2f 1.35 0.05 2.00`
   do
 
 #    mkdir results
-
     for iteration in `seq 0 $niter`
     do
 
@@ -53,9 +53,9 @@ do
 
       echo $iteration $pks70 $pmsurv $mmb 
     done
-    grep Detected results/PKS70"_"$sp_mean"_"$sp_sig"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> PKS70_vals
-    grep Detected results/PMSURV"_"$sp_mean"_"$sp_sig"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> PMSURV_vals
-    grep Detected results/MMB"_"$sp_mean"_"$sp_sig"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> MMB_vals
+    grep Detected results/PKS70"_"$sp_mean"_"$sp_sigma"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> PKS70_vals
+    grep Detected results/PMSURV"_"$sp_mean"_"$sp_sigma"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> PMSURV_vals
+    grep Detected results/MMB"_"$sp_mean"_"$sp_sigma"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> MMB_vals
 
   done
 done

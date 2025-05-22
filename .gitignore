@@ -17,4 +17,4 @@ fortran/build
 fortran/compile.txt
 *.swp
 threadpop.py
-
+*_vals
