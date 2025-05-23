@@ -18,3 +18,5 @@ fortran/compile.txt
 *.swp
 threadpop.py
 *_vals
+script2.sh
+results*
