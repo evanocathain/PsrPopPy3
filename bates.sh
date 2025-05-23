@@ -69,5 +69,7 @@ do
   grep Detected $results_dir/MMB"_"$sp_mean"_"$sp_sigma"_"*.summary | awk '{print $NF}' | awk -v m=$sp_mean -v r=$sp_sigma '{s+=$1; ss+=$1*$1}END{print m, r, s/NR, sqrt(ss/NR - (s/NR)*(s/NR))}' >> $results_dir/"MMB_"$sp_mean"_"$sp_sigma
 
 done
-
+  cat results_*/PKS70*_?.?? >> PKS70_values
+  cat results_*/PMSURV*_?.?? >> PMSURV_values
+  cat results_*/MMB*_?.?? >> MMB_values
 exit
