@@ -1,0 +1,23 @@
+###############################################################################
+# model of SKA1-Mid AA4 Band 2 - main parameters
+###############################################################################
+  1.0  ! survey degradation factor
+  2.75  ! antenna gain (K/Jy)
+  600 ! integration time (s)
+  0.064 ! sampling time (ms)
+  15.  ! system temperature (K)
+  1400 ! centre frequency (MHz)
+  300  ! bandwidth (MHz)
+  0.009  ! channel bandwidth (MHz)
+  2    ! number of polarizations
+  28.5  ! full-width half maximum (arcmin)
+  0.   ! minimum RA (deg)
+  360. ! maximum RA (deg)
+ -90.  ! minimum DEC (deg)
+  45.  ! maximum DEC (deg)
+ -180  ! minimum Galactic longitude (deg)
+  180.  ! maximum Galactic longitude (deg)
+  0.   ! minimum abs(Galactic latitude) (deg)
+  10.   ! maximum abs(Galactic latitude) (deg)
+  1.0  ! fractional survey coverage (0-1)
+  9.0  ! signal-to-noise ratio

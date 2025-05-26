@@ -1,0 +1,23 @@
+###############################################################################
+# model of the SKA-Mid Band 1 AAstar survey - main parameters 
+###############################################################################
+  1.0  ! survey degradation factor
+  2.64  ! antenna gain (K/Jy)
+  600 ! integration time (s)
+  0.064 ! sampling time (ms)
+  28.  ! system temperature (K)
+  865 ! centre frequency (MHz)
+  300  ! bandwidth (MHz)
+  0.009  ! channel bandwidth (MHz)
+  2    ! number of polarizations
+  46.1  ! full-width half maximum (arcmin)
+  0.   ! minimum RA (deg)
+  360. ! maximum RA (deg)
+ -90.  ! minimum DEC (deg)
+  30.  ! maximum DEC (deg)
+ -180  ! minimum Galactic longitude (deg)
+  180.  ! maximum Galactic longitude (deg)
+  5.   ! minimum abs(Galactic latitude) (deg)
+  15.   ! maximum abs(Galactic latitude) (deg)
+  1.0  ! fractional survey coverage (0-1)
+  9.0  ! signal-to-noise ratio

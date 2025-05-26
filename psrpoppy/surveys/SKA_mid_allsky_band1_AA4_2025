@@ -1,5 +1,5 @@
 ###############################################################################
-# model of the Parkes multibeam survey - main parameters
+# model of the SKA-Mid Band 1 AA4 survey - main parameters
 ###############################################################################
   1.0  ! survey degradation factor
   4.4  ! antenna gain (K/Jy)
@@ -10,7 +10,7 @@
   300  ! bandwidth (MHz)
   0.009  ! channel bandwidth (MHz)
   2    ! number of polarizations
-  86.1  ! full-width half maximum (arcmin)
+  46.1  ! full-width half maximum (arcmin)
   0.   ! minimum RA (deg)
   360. ! maximum RA (deg)
  -90.  ! minimum DEC (deg)

@@ -1,0 +1,24 @@
+###############################################################################
+# model of the SKA-Low AAstar survey - main parameters
+###############################################################################
+  1.0  ! survey degradation factor
+  18.24  ! antenna gain (K/Jy)             ! AAstar - 192 stations
+  600 ! integration time (s)
+  0.10 ! sampling time (ms)
+  47.  ! system temperature (K)
+  190 ! centre frequency (MHz)
+  100  ! bandwidth (MHz)
+  0.005  ! channel bandwidth (MHz)
+  2    ! number of polarizations
+  121.3  ! full-width half maximum (arcmin)
+  0.   ! minimum RA (deg)
+  360. ! maximum RA (deg)
+ -90.  ! minimum DEC (deg)                  ! This ensures zenith calculation
+  36.  ! maximum DEC (deg)                  ! is correct as Low is lat -27deg
+ -180  ! minimum Galactic longitude (deg)
+  180.  ! maximum Galactic longitude (deg)
+  10.   ! minimum abs(Galactic latitude) (deg)
+  90.   ! maximum abs(Galactic latitude) (deg)
+  1.0  ! fractional survey coverage (0-1)
+  9.0  ! signal-to-noise ratio
+  AA   ! Aperture Array
