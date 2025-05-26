@@ -39,8 +39,8 @@ do
   for iteration in `seq 0 $niter`                    # Loop over niter iterations
   do
     echo "Generating population with Spectral index mean" $sp_mean "and spectral sigma" $sp_sigma
-    python3.10 psrpoppy/populate.py -n $pmsurv_number -surveys PMSURV -si $sp_mean $sp_sigma --nostdout
-    python3.10 psrpoppy/dosurvey.py -surveys PKS70 PMSURV MMB --asc --summary --accel --nostdout
+    python3.10 psrpoppy/populate.py -n $pmsurv_number -surveys PMSURV -si $sp_mean $sp_sigma -o $sp_mean".model" --nostdout
+    python3.10 psrpoppy/dosurvey.py -surveys PKS70 PMSURV MMB --asc --summary --accel -f $sp_mean".model" --nostdout
 
     # Rename and move files to mark them per iteration
     # .det files
