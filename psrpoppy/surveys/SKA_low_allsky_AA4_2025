@@ -2,7 +2,7 @@
 # model of the SKA-Low AA4 survey - main parameters
 ###############################################################################
   1.0  ! survey degradation factor
-  20.62  ! antenna gain (K/Jy)             ! AA4 - 217 stations
+  33.4  ! antenna gain (K/Jy)             ! AA4 - 217 stations
   600 ! integration time (s)
   0.10 ! sampling time (ms)
   47.  ! system temperature (K)

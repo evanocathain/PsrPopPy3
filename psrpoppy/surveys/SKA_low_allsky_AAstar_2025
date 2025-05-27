@@ -2,7 +2,7 @@
 # model of the SKA-Low AAstar survey - main parameters
 ###############################################################################
   1.0  ! survey degradation factor
-  18.24  ! antenna gain (K/Jy)             ! AAstar - 192 stations
+  29.25  ! antenna gain (K/Jy)             ! AAstar - 192 stations
   600 ! integration time (s)
   0.10 ! sampling time (ms)
   47.  ! system temperature (K)

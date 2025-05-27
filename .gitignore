@@ -21,3 +21,9 @@ threadpop.py
 script2.sh
 results*
 *values
+slow.model
+msp.model
+fft_factor.pdf
+fft_factor.ps
+/20iterations
+plot_spectra.gp
