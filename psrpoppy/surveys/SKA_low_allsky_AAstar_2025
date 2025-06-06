@@ -8,7 +8,7 @@
   47.  ! system temperature (K)
   190 ! centre frequency (MHz)
   100  ! bandwidth (MHz)
-  0.005  ! channel bandwidth (MHz)
+  0.013  ! channel bandwidth (MHz)
   2    ! number of polarizations
   121.3  ! full-width half maximum (arcmin)
   0.   ! minimum RA (deg)
